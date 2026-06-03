@@ -60,9 +60,7 @@ fun WebhookScreen() {
     var url by remember { mutableStateOf(prefs.getString("webhook_url", "") ?: "") }
     var method by remember { mutableStateOf(prefs.getString("webhook_method", "POST") ?: "POST") }
     var payload by remember {
-        mutableStateOf(
-            prefs.getString("webhook_payload", """{"from": "{{from}}", "content": "{{content}}", "timestamp": {{timestamp}}}""") ?: ""
-        )
+        mutableStateOf(prefs.getString("webhook_payload", "") ?: "")
     }
     var methodExpanded by remember { mutableStateOf(false) }
     val methods = listOf("GET", "POST")
@@ -142,9 +140,8 @@ fun WebhookScreen() {
                     Switch(checked = excludeFromRecents, onCheckedChange = {
                         excludeFromRecents = it
                         prefs.edit().putBoolean("exclude_from_recents", it).apply()
-                        if (it) {
-                            (context as? ComponentActivity)?.finishAndRemoveTask()
-                        }
+                        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+                        am.appTasks.firstOrNull()?.setExcludeFromRecents(it)
                     }, modifier = Modifier.scale(0.85f))
                 }
             }
@@ -170,8 +167,7 @@ fun WebhookScreen() {
                 value = url,
                 onValueChange = { url = it },
                 label = { Text("Webhook URL") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                modifier = Modifier.fillMaxWidth()
             )
 
             ExposedDropdownMenuBox(expanded = methodExpanded, onExpandedChange = { methodExpanded = it }) {
@@ -194,7 +190,7 @@ fun WebhookScreen() {
                 OutlinedTextField(
                     value = payload,
                     onValueChange = { payload = it },
-                    placeholder = { Text("""{"from": "{{from}}", "code": "{{code}}"}""") },
+                    placeholder = { Text("""{"from":"{{from}}","code":"{{code}}","content":"{{content}}"}""") },
                     label = { Text("Payload") },
                     modifier = Modifier.fillMaxWidth().heightIn(min = 140.dp)
                 )

@@ -60,8 +60,7 @@ class SmsNotificationListener : NotificationListenerService() {
         val prefs = getSharedPreferences("config", MODE_PRIVATE)
         val url = prefs.getString("webhook_url", null) ?: return
         val method = prefs.getString("webhook_method", "POST") ?: "POST"
-        val template = prefs.getString("webhook_payload",
-            """{"from": "{{from}}", "content": "{{content}}", "timestamp": {{timestamp}}}""") ?: return
+        val template = prefs.getString("webhook_payload", "") ?: ""
         val regex = prefs.getString("code_regex", "") ?: ""
 
         val code = if (regex.isNotBlank()) {
