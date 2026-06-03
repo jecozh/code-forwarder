@@ -8,7 +8,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="验证码转发"
-        android:theme="@style/Theme.SmsForwarder">
+        android:theme="@style/Theme.CodeForwarder">
 
         <activity
             android:name=".MainActivity"

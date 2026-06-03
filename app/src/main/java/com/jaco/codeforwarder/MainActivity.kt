@@ -1,4 +1,4 @@
-package com.smsforwarder
+package com.jaco.codeforwarder
 
 import android.content.Context
 import android.os.Bundle
@@ -15,7 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -128,28 +128,24 @@ fun WebhookScreen() {
             }
 
             // 设置区
-            Text("设置", style = MaterialTheme.typography.titleMedium)
             var excludeFromRecents by remember { mutableStateOf(prefs.getBoolean("exclude_from_recents", false)) }
-            OutlinedCard(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                        Text("启用转发", style = MaterialTheme.typography.bodyLarge)
-                        Switch(checked = forwardEnabled, onCheckedChange = {
-                            forwardEnabled = it
-                            prefs.edit().putBoolean("forward_enabled", it).apply()
-                        }, modifier = Modifier.scale(0.85f))
-                    }
-                    HorizontalDivider()
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                        Text("从最近任务中隐藏", style = MaterialTheme.typography.bodyLarge)
-                        Switch(checked = excludeFromRecents, onCheckedChange = {
-                            excludeFromRecents = it
-                            prefs.edit().putBoolean("exclude_from_recents", it).apply()
-                            if (it) {
-                                (context as? ComponentActivity)?.finishAndRemoveTask()
-                            }
-                        }, modifier = Modifier.scale(0.85f))
-                    }
+            Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                    Text("启用转发", style = MaterialTheme.typography.bodyLarge)
+                    Switch(checked = forwardEnabled, onCheckedChange = {
+                        forwardEnabled = it
+                        prefs.edit().putBoolean("forward_enabled", it).apply()
+                    }, modifier = Modifier.scale(0.85f))
+                }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                    Text("从最近任务中隐藏", style = MaterialTheme.typography.bodyLarge)
+                    Switch(checked = excludeFromRecents, onCheckedChange = {
+                        excludeFromRecents = it
+                        prefs.edit().putBoolean("exclude_from_recents", it).apply()
+                        if (it) {
+                            (context as? ComponentActivity)?.finishAndRemoveTask()
+                        }
+                    }, modifier = Modifier.scale(0.85f))
                 }
             }
 

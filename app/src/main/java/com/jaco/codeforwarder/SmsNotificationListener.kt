@@ -1,4 +1,4 @@
-package com.smsforwarder
+package com.jaco.codeforwarder
 
 import android.app.Notification
 import android.service.notification.NotificationListenerService

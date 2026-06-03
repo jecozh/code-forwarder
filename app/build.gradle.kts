@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.smsforwarder"
+    namespace = "com.jaco.codeforwarder"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.smsforwarder"
+        applicationId = "com.jaco.codeforwarder"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -42,5 +42,6 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.activity:activity-compose:1.9.3")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }
